@@ -1,0 +1,13 @@
+
+	body{margin:0;}
+	
+	#wrap{width:1920px; height:850px; background:green; margin:0 auto;}
+	#header{width:960px;height:130px;background:yellow; margin-left:500px;}
+	#middle{width:960px; float:left; }
+	#content{width:960px; height:700px;float:left; background:blue; margin-left:500px;}
+	
+	
+	
+
+
+	
