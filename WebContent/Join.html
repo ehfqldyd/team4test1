@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
-<title>Registe</title>
+<title>Join</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" charset="EUC-KR">
 <link type="text/css" rel="stylesheet" href=css/common.css>
 <body class="w3-content" style="max-width:1300px">
 
   <div class="w3-teal w3-container " style="height:662px;  margin:auto;">
     <div class="w3-padding-64 w3-padding-xxlarge w3-center">
-      <h1>Registe</h1>
+      <h1>Join</h1>
       <p class="w3-opacity">회원등록 이후 이용 가능합니다.</p>
       </div>
-      <form class="w3-container w3-card-2 w3-padding-32 w3-white" style="max-width:720px; margin:auto;" name="RegistForm" method="get" action="Controller">
-        <input type="hidden" name="action" value="registe">
+      <form class="w3-container w3-card-2 w3-padding-32 w3-white" style="max-width:720px; margin:auto;" name="JoinForm" method="get" action="Controller">
+        <input type="hidden" name="action" value="join">
         <div class="w3-group">
           <label>ID</label>
           <input class="w3-input" style="width:100%;" type="text" name="userId" placeholder = " 사용할 아이디를 입력해 주십시오."
@@ -22,11 +22,11 @@
           <input class="w3-input" style="width:100%;" type="password" name="userPw" placeholder = " 사용할 비밀번호를 입력해 주십시오." required>
         </div>
         <div class="w3-group">
-          <label>Name</label>
+          <label>이름</label>
           <input class="w3-input" style="width:100%;" type="text" name="userName" placeholder = " 등록자 이름 또는 별명을 입력해 주십시오." required>
         </div>
-        <a href="Index.html"><button type="button" class="w3-btn w3-right w3-theme">Back</button></a>
-        <button type="submit" class="w3-btn w3-right w3-theme">Send</button>
+        <a href="Index.html"><button type="button" class="w3-btn w3-right w3-theme">돌아가기</button></a>
+        <button type="submit" class="w3-btn w3-right w3-theme">회원 가입</button>
 
       </form>
     </div>

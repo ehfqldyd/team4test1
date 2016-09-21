@@ -44,12 +44,12 @@ public class MemberService {
    }
 
    
-   public int registe(String userId, String userPw, String userName) {
+   public int join(String userId, String userPw, String userName) {
       
 	   int coupleNo = 0;
 	   
 	   Member user = new Member(userId, userPw, userName, coupleNo);
-	   int userAdd = dao.registe(user);
+	   int userAdd = dao.join(user);
       return userAdd;
    }
 }

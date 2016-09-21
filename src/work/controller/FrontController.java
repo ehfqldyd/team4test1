@@ -124,7 +124,7 @@ public class FrontController extends HttpServlet {
     * @throws ServletException 서블릿
     * @throws IOException 예외처리
     */
-   protected void registe(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+   protected void join(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       String userId = request.getParameter("userId");
       String userPw = request.getParameter("userPw");
       String userName = request.getParameter("userName");
@@ -136,7 +136,7 @@ public class FrontController extends HttpServlet {
          request.getRequestDispatcher("error/error.jsp").forward(request, response);
       } else {
          Member dto = new Member();
-         int result = userService.registe(userId, userPw, userName);
+         int result = userService.join(userId, userPw, userName);
          System.out.println("userId = "+ userId + ", userPw =" + userPw + ", userName = "+ userName);
          if (result == 1) {
             // 가입 성공
@@ -158,7 +158,7 @@ public class FrontController extends HttpServlet {
             // 가입 실패
         	 System.out.println("회원 가입 실패");
             request.setAttribute("message", "회원가입이 정상적으로 진행되지 않았습니다.");
-            request.getRequestDispatcher("error/registeError.jsp").forward(request, response);
+            request.getRequestDispatcher("error/JoinError.jsp").forward(request, response);
          }
       }
 
@@ -224,8 +224,8 @@ public class FrontController extends HttpServlet {
          case "login":
             login(request, response);
             break;
-         case "registe":
-        	 registe(request, response);
+         case "join":
+        	 join(request, response);
             break;
          case "logout":
             logout(request, response);

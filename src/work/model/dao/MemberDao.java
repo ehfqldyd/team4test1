@@ -47,7 +47,7 @@ public class MemberDao {
     * @param coupleNo 커플번호
     * @return 반환
     */
-   public int registe(Member user) {
+   public int join(Member user) {
       Connection conn = null;
       PreparedStatement pstmt = null;
       
