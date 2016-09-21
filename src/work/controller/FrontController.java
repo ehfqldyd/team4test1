@@ -13,17 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import work.model.dto.Bike;
-import work.model.dto.Rent;
 import work.model.dto.User;
-import work.model.service.BikeService;
-import work.model.service.RentService;
 import work.model.service.UserService;
 
 public class FrontController extends HttpServlet {
 	private UserService userService = new UserService();
-	private BikeService bikeService = new BikeService();
-	private RentService rentService = new RentService();
 	// 로그인검증
 	// HttpSession session = request.getSession(false);
 	// if(session!=null||session.getAttribute("userId")!= null)
@@ -292,192 +286,9 @@ public class FrontController extends HttpServlet {
 		// 4.기존세션객체삭제 invalidate()
 		// 5.redirect로 응답뷰로 이동 ->성공,실패
 	}
-	/**자전거 - [관리자]
-	 */
-	protected void insertBike(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		adminCheck(request,response);
-		int bikeNo =  Integer.parseInt(request.getParameter("bikeNo"));
-		String location = request.getParameter("location");
-		
-
-		Bike dto = new Bike(bikeNo, location);
-		if (bikeNo==0 || location==null	|| location.length() == 0) {
-			request.setAttribute("message", "자전거등록오류");
-			RequestDispatcher nextView = request.getRequestDispatcher("error.jsp");
-			nextView.forward(request, response);
-		}
-		// 모델에게 요청의뢰
-		int checknum =bikeService.insertBike(dto);
-		System.out.println(checknum);
-		// 요청결과받아서 응답위한 설정
-		if (checknum != 0) {
-			request.setAttribute("checknum", checknum);
-			request.getRequestDispatcher("insertBike.jsp").forward(request, response);
-		} else {
-			StringBuilder stb = new StringBuilder();
-			stb.append("다시 확인하세요");
-			stb.append("<br>");
-			stb.append("잘못입력하셨습니다");
-			request.setAttribute("message", stb.toString());
-			// 오류페이지로 포워드 이동
-
-			request.getRequestDispatcher("error.jsp").forward(request, response);
-		}
-		// 응답페이지 이동: 성공, 실패 , 기타
-	}
-	protected void allInfoBike(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-			adminCheck(request,response);
-			ArrayList<Bike> list = bikeService.selectAllBike();
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("bikeAll.jsp").forward(request, response);
-	}
-	protected void bikeDetail(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		adminCheck(request,response);
-		int bikeNo = Integer.parseInt(request.getParameter("bikeNo"));
-		if (bikeNo == 0) {
-			request.setAttribute("message", "조회 회원의 아이디를 입력해주세요");
-			request.getRequestDispatcher("error.jsp").forward(request, response);
-		}
-		Bike dto = bikeService.selectOneBike(bikeNo);
-		request.setAttribute("dto", dto);
-		request.getRequestDispatcher("bikeInfo.jsp").forward(request, response);
-
-	}
-	protected void selectAllInfoBike(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		adminCheck(request,response);
-		String location = request.getParameter("location");
-			ArrayList<Bike> list =	bikeService.selectAllBikeLocation(location);
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("bikeAll.jsp").forward(request, response);
-	}
-	protected void updateLocation(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		adminCheck(request,response);
-		int bikeNo = Integer.parseInt(request.getParameter("bikeNo"));
-		String location = request.getParameter("location");
-		String newLocation = request.getParameter("newLocation");
-		// 요청데이터 추출
-		HttpSession session = request.getSession(false);
-			int checknum = bikeService.updateLocation(bikeNo, location, newLocation);
-
-			if (checknum != 0) {
-				request.setAttribute("checknum", checknum);
-				request.getRequestDispatcher("bikeAll.jsp").forward(request, response);
-			} else {
-				StringBuilder stb = new StringBuilder();
-				stb.append(" 다시 확인하세요");
-				stb.append("<br>");
-				stb.append("잘못입력하셨습니다");
-				request.setAttribute("message", stb.toString());
-				request.getRequestDispatcher("error.jsp").forward(request, response);
-			}
-	}
-	/**대여*/
-	protected void insertRent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		loginCheck(request,response);
-		rentCheck(request,response);
-		HttpSession session = request.getSession(false);
-		int bikeNo =  Integer.parseInt(request.getParameter("bikeNo"));
-		
-		String location = request.getParameter("location");
-		Rent dto = new Rent(bikeNo);
-		if (bikeNo==0 || location==null	|| location.length() == 0) {
-			request.setAttribute("message", "렌트 오류");
-			RequestDispatcher nextView = request.getRequestDispatcher("error.jsp");
-			nextView.forward(request, response);
-		}
-		int checknum =rentService.insertRent(bikeNo,(String)session.getAttribute("userId"), location);
-		System.out.println(checknum);
-		
-		if (checknum==9) {
-			
-			request.getRequestDispatcher("rentError.jsp").forward(request, response);
-		} else if(checknum != 0 && checknum!= 9){
-			request.setAttribute("checknum", checknum);
-			request.getRequestDispatcher("Controller?action=allInfoRent").forward(request, response);
-
-		}
-		else{
-			StringBuilder stb = new StringBuilder();
-			stb.append("다시 확인하세요");
-			stb.append("<br>");
-			stb.append("잘못입력하셨습니다");
-			request.setAttribute("message", stb.toString());
-			// 오류페이지로 포워드 이동
-
-			request.getRequestDispatcher("error.jsp").forward(request, response);
-		}
-		
-		// 응답페이지 이동: 성공, 실패 , 기타
-	}
-	protected void allInfoRent(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-			loginCheck(request,response);
-			ArrayList<Bike> list = bikeService.selectAllBike();
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("rentRequest.jsp").forward(request, response);
-	}
-	protected void selectAllInfoRent(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		loginCheck(request,response);
-		String location = request.getParameter("location");
-			ArrayList<Bike> list =	bikeService.selectAllBikeLocation(location);
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("rentRequest.jsp").forward(request, response);
-	}
-	protected void deleteRent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		loginCheck(request,response);
-		HttpSession session = request.getSession(false);
-		int bikeNo =  Integer.parseInt(request.getParameter("bikeNo"));
-		String location = request.getParameter("location");
-		Rent dto = new Rent(bikeNo);
-		if (bikeNo==0 || location==null	|| location.length() == 0) {
-			request.setAttribute("message", " 오류");
-			RequestDispatcher nextView = request.getRequestDispatcher("error.jsp");
-			nextView.forward(request, response);
-		}
-		int checknum =rentService.deleteRent(bikeNo, location);
-		System.out.println(checknum);
-		
-		if (checknum != 0) {
-			request.setAttribute("checknum", checknum);
-			request.getRequestDispatcher("Controller?action=allInfoRent").forward(request, response);
-		} else {
-			StringBuilder stb = new StringBuilder();
-			stb.append("다시 확인하세요");
-			stb.append("<br>");
-			stb.append("잘못입력하셨습니다");
-			request.setAttribute("message", stb.toString());
-			// 오류페이지로 포워드 이동
-
-			request.getRequestDispatcher("error.jsp").forward(request, response);
-		}
-		
-		// 응답페이지 이동: 성공, 실패 , 기타
-	}
 	
-	protected void myRentDetail(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-			loginCheck(request,response);
-			HttpSession session = request.getSession(false);
-			ArrayList<Rent> list = rentService.selectOneRent((String)session.getAttribute("userId"));
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("myRentDetail.jsp").forward(request, response);
-	}
 	
-	protected void delayRent(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-			loginCheck(request,response);
-			int bikeNo =  Integer.parseInt(request.getParameter("bikeNo"));
-			int checknum=rentService.delayRent(bikeNo);
-			request.setAttribute("checknum", checknum);
-			request.getRequestDispatcher("Controller?action=myRentDetail").forward(request, response);
-
-						
-	}
+	
 	/** get과 post를 처리해주는 메서드 */
 	protected void process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -502,54 +313,7 @@ public class FrontController extends HttpServlet {
 			case "changePassword":
 				changePassword(request, response);
 				break;
-			case "allInfo":
-				allInfo(request, response);
-				break;
-			case "logout":
-				logout(request, response);
-				break;
-			case "selectAllInfo":
-				selectAllInfo(request, response);
-				break;
-			case "memberDelete":
-				memberDelete(request, response);
-				break;
-			case "updateId":
-				updateId(request, response);
-				break;
-			case "insertBike":
-				insertBike(request,response);
-				break;
-			case "allInfoBike":
-				allInfoBike(request,response);
-				break;
-			case "bikeDetail":
-				bikeDetail(request,response);
-				break;
-			case "selectAllInfoBike":
-				selectAllInfoBike(request,response);
-				break;
-			case "updateLocation":
-				updateLocation(request,response);
-				break;
-			case "allInfoRent":
-				allInfoRent(request,response);
-				break;
-			case "selectAllInfoRent":
-				selectAllInfoRent(request,response);
-				break;
-			case "insertRent":
-				insertRent(request,response);
-				break;
-			case "deleteRent":
-				deleteRent(request,response);
-				break;
-			case "myRentDetail":
-				myRentDetail(request,response);
-				break;
-			case "delayRent":
-				delayRent(request,response);
-				break;
+			
 			default:
 			}
 		} else {
