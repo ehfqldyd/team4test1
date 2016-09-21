@@ -21,41 +21,9 @@ public class UserService {
 	}
 	/**회원등록*/
 	public int insertUser(User user){
-		
-		String grade="G";
-		
-		user.setGrade(grade);
-		
 		return dao.insertUser(user);
 		
 	}
 	
-	public int delete(String userId){
-		return dao.delete(userId);
-	}
 	
-	public User selectOne(String userId){
-		
-		return dao.selectOne(userId);
-	}
-	public ArrayList<User> selectAll(){
-		return dao.selectAll();
-	}
-	public ArrayList<User> selectAllinfo(String name){
-		return dao.selectAllInfo(name);
-	}
-	public int updatePw(String userId,String userPw,String newUserPw){
-		return dao.updatePw(userId, userPw, newUserPw);
-	}
-	public User updateId(String userId, String userPw, String mobile, String email ,String address ){
-		return dao.updateId(userId, userPw, mobile, email, address);
-	}
-//	public boolean join2(String userId, String userPw,String name,String mobile,String email){
-//		int result = dao.insertMember(userId, userPw, name, mobile, email);
-//		if(result ==1){ 
-//			return true;
-//		} else{
-//			return false;
-//		}
-//	}
 }
