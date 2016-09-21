@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" charset="EUC-KR">
+<link type="text/css" rel="stylesheet" href=css/common.css>
+<body class="w3-content" style="max-width:1300px">
+
+<div class="w3-blue-grey w3-container" style="height:662px; margin:auto">
+    <div class="w3-padding-32 w3-padding-xxlarge w3-center">
+      <h1>Login</h1>
+      <p class="w3-opacity">로그인 이후 이용 가능합니다.</p>
+      </div>
+      <form class="w3-container w3-card-2 w3-padding-32 w3-white"  style="max-width:720px; margin:auto;" name="loginForm" method="post" action="Controller">
+       <input type="hidden" name="action" value="login">
+        <div class="w3-group">
+          <label>ID</label>
+          <input class="w3-input" style="width:100%;" type="text" name="userId" placeholder = " 아이디를 입력해 주십시오."
+		autofocus required>
+        </div>
+        <div class="w3-group">
+          <label>Password</label>
+          <input class="w3-input" style="width:100%;" type="password" name="userPw" placeholder = " 암호를 입력해 주십시오." required>
+        </div>
+
+         <a href="Index.html"><button type="button" class="w3-btn w3-right w3-theme">Back</button></a>
+        <button type="submit" class="w3-btn w3-right w3-theme">Send</button>
+      </form>
+    </div>
+ 
+
+</body>
+</html>
